@@ -1,10 +1,10 @@
 <template>
   <v-container class="ma-0 pa-0" grid-list-sm>
-    <div class="text-right">
-      <v-btn small text to="/blogs" class="blue--text">
-        All Blogs
-      </v-btn>
-    </div>
+  <v-subheader>
+    All Blogs
+  </v-subheader>
+    <add-blog/>
+    <br>
     <v-layout wrap>
       <blog-item-component 
         v-for="blog in blogs"  
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import AddBlog from '../components/AddBlog.vue';
 import BlogItemComponent from '../components/BlogItemComponent.vue';
 export default {
     data: () => ({
@@ -32,6 +33,7 @@ export default {
         perPage: 0,
     }),
     components: {
+        'add-blog' : AddBlog ,
         'blog-item-component': BlogItemComponent
     },
     methods: {

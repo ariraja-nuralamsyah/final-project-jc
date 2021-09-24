@@ -20,8 +20,13 @@
                 </v-simple-table>
             </v-card-text>
         </v-card>
+        <button @click="editMember(member)">Edit</button>  ||  
+        <button @click="removeMember(member.id)">Hapus</button>  ||
+        <button @click="uploadPhoto(member)">Upload Foto</button>
     </div>
 </template>
+
+
 
 <script>
 export default {

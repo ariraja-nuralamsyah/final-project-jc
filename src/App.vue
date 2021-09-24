@@ -19,7 +19,7 @@
             <v-icon left>mdi-lock</v-icon>
             Login
           </v-btn>
-          <v-btn block color="success">
+          <v-btn block color="success" @click="register">
             <v-icon left>mdi-account</v-icon>
             Register
           </v-btn>
@@ -44,8 +44,17 @@
       <template v-slot:append v-if="!guest">
         <div class="pa-2">
           <v-btn block color="red" dark @click="logout">
-            <v-icon left>mdi-lock</v-icon>
-            Logout
+            <div v-if="onLoad == true"><v-progress-circular
+                indeterminate
+                color="black"
+                :width="1"
+                :size="15"
+            ></v-progress-circular>
+            </div>
+            <div v-else>
+                <v-icon right dark>mdi-lock-open</v-icon>
+            </div>
+            &nbsp; Logout
           </v-btn>
         </div>
       </template>
@@ -63,7 +72,7 @@
 
     <!-- Sizes your content based upon application components -->
     <v-main>
-      <v-container fluid>
+      <v-container>
         <v-slide-y-transition>
           <router-view></router-view>
         </v-slide-y-transition>
@@ -92,6 +101,7 @@ export default {
       {title: 'Blogs', icon: 'mdi-note', route: '/blogs'},
     ],
     apiDomain: "https://demo-api-vue.sanbercloud.com",
+    onLoad: false,
   }),
   computed: {
     ...mapGetters({
@@ -102,6 +112,7 @@ export default {
   },
   methods: {
     logout(){
+      this.onLoad = true
       let config = {
         method: 'post',
         url: `${this.apiDomain}/api/v2/auth/logout`,
@@ -120,6 +131,7 @@ export default {
             color: 'success',
             text: 'Anda berhasil logout',
           })
+          this.onLoad = false
         })
         .catch(() => {
           this.setAlert({
@@ -131,6 +143,9 @@ export default {
     },
     login(){
       this.setDialogComponent({'component' : 'login'})
+    },
+    register(){
+      this.setDialogComponent({'component' : 'register'})
     },
     ...mapActions({
       setAlert : 'alert/set',
