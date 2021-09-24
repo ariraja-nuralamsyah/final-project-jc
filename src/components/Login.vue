@@ -8,10 +8,11 @@
         </v-toolbar>
         <v-divider></v-divider>
         <v-container fluid>
-            <v-form ref="form">
+            <v-form ref="form" v-model="isValid">
                 <v-text-field
                     v-model="email"
                     label="E-mail"
+                    :rules="emailRules"
                     required
                     append-icon="mdi-email"
                 ></v-text-field>
@@ -20,6 +21,7 @@
                     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off' "
                     :type="showPassword ? 'text' : 'password' "
                     label="Password"
+                    :rules="passwordRules"
                     counter
                     @click:append="showPassword = !showPassword"
                 ></v-text-field>
@@ -28,9 +30,19 @@
                     <v-btn
                         color="success lighten-1"
                         @click="submit"
+                        :disabled="!isValid"
                     >
-                        Login
-                        <v-icon right dark>mdi-lock-open</v-icon>
+                        Login &nbsp;
+                        <div v-if="onLoad == true"><v-progress-circular
+                            indeterminate
+                            color="black"
+                            :width="1"
+                            :size="15"
+                        ></v-progress-circular>
+                        </div>
+                        <div v-else>
+                            <v-icon right dark>mdi-lock-open</v-icon>
+                        </div>
                     </v-btn>
                 </div>
             </v-form>
@@ -46,7 +58,21 @@ export default {
             email: '',
             showPassword: false,
             password: '',
+            onLoad: false,
+            isValid: true,
             apiDomain: 'https://demo-api-vue.sanbercloud.com',
+        }
+    },
+    computed: {
+        emailRules() {
+            return [
+                v => !!v || 'E-mail is required'
+            ]
+        }, 
+        passwordRules(){
+            return [
+                v => !!v || 'Password is required'
+            ]
         }
     },
     methods: {
@@ -58,6 +84,7 @@ export default {
             this.$emit('closed', false)
         },
         submit(){
+            this.onLoad = true
             const config = {
                 method: "post",
                 url: `${this.apiDomain}/api/v2/auth/login`,
@@ -75,14 +102,16 @@ export default {
                         color: 'success',
                         text: 'Login Berhasil',
                     })
+                    this.onLoad = false
                     this.close()
                 })
                 .catch(() => {
                     this.setAlert({
                         status: true,
                         color: 'error',
-                        text: 'Login Gagal',
+                        text: 'Email/Password salah',
                     })
+                    this.onLoad = false
                 })
         }
     },
