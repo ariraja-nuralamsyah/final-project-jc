@@ -98,8 +98,8 @@ export default {
           submit(){
            this.validationform()
 
-            if(this.errors.length === 0)
-            let formData = new FormData() {
+            var formData = new FormData() 
+            if(this.errors.length === 0){
             formData.append('title', this.title)
             formData.append('description', this.description)
             }
