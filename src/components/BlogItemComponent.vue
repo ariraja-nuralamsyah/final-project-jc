@@ -1,5 +1,6 @@
 <template>
     <v-flex xs6>
+        <add-rud />
         <v-card :to="`/blog/${blog.id}`">
           <v-img
             :src="blog.photo ? apiDomain + blog.photo : 'https://picsum.photos/200/300'"
@@ -27,10 +28,14 @@
 </template>
 
 <script>
+import AddRud from '../components/AddRud.vue'
 export default{
     data: () => ({
         apiDomain: 'https://demo-api-vue.sanbercloud.com',
     }),
-    props: ['blog']
+    props: ['blog'] ,
+    components : {
+      'add-rud' : AddRud
+    }
 }
 </script>
