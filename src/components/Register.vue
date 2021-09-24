@@ -32,7 +32,7 @@
                     @click:append="showPassword = !showPassword"
                     :rules="passwordRules"
                 ></v-text-field>
-                <v-img :src="this.image != null ? url : 'https://cdn2.iconfinder.com/data/icons/avatar-profile/431/avatar_contact_tie_user_default_suit_display-512.png'" style="width:100px"></v-img>
+                <v-img :src="image != null ? image.length != 0 ? url : imageDummy : imageDummy" style="width:100px"></v-img>
                 <v-file-input
                     accept="image/png, image/jpeg, image/bmp"
                     placeholder="Pick an photo profile"
@@ -77,7 +77,8 @@ export default {
             showPassword: false,
             password: '',
             name: '',
-            image: null,
+            image: [],
+            imageDummy: 'https://cdn2.iconfinder.com/data/icons/avatar-profile/431/avatar_contact_tie_user_default_suit_display-512.png',
             url: null,
             onLoad: false,
             isValid: true,
@@ -154,7 +155,7 @@ export default {
                             this.onLoad = false
                             this.email = ''
                             this.password = ''
-                            this.image = '' 
+                            this.image = [] 
                             this.name = ''
                             this.close()
                         })
