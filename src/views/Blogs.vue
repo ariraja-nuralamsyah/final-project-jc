@@ -1,5 +1,5 @@
 <template>
-  <v-container class="ma-0 pa-0" grid-list-sm>
+  <v-container class="ma-0 pa-0" grid-list-md>
     <div class="text-right">
       <v-btn small text to="/blogs" class="blue--text">
         All Blogs

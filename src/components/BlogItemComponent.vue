@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs6>
+    <v-flex xs3>
         <v-card :to="`/blog/${blog.id}`">
           <v-img
             :src="blog.photo ? apiDomain + blog.photo : 'https://picsum.photos/200/300'"
