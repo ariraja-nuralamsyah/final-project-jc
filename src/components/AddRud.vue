@@ -96,9 +96,8 @@ export default {
           },
           submit(){
            this.validationform()
-
+            let formData = new FormData()
             if(this.errors.length === 0){
-                let formData = new FormData()
                 formData.append('title', this.title)
                 formData.append('description', this.description)
             }
@@ -107,7 +106,7 @@ export default {
                 url: `http://demo-api-vue.sanbercloud.com/api/v2/blog`,
                 headers: {
                     'Authorization': 'Bearer ' + this.token,
-                    'Accept': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 },
                 data: this.formData
             };
