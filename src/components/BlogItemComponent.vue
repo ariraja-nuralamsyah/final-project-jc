@@ -1,11 +1,7 @@
 <template>
-    <v-flex xs3>
-      
-        <v-card>
-        <router-link
-          :to="`/blog/${blog.id}`"
-          style="text-decoration: none; color: inherit;"
-        >
+    <v-flex xs6>
+        
+        <v-card :to="`/blog/${blog.id}`">
           <v-img
             :src="blog.photo ? apiDomain + blog.photo : 'https://picsum.photos/200/300'"
             class="white--text"
@@ -17,7 +13,6 @@
             >
             </v-card-title>
           </v-img>
-        </router-link>
           
           <v-card-actions>
             <v-progress-linear
@@ -29,9 +24,10 @@
 
           <p style="padding: 8px">{{ blog.title.substring(0,15) }}...</p>
 
-          <v-container class="d-flex flew-row-reverse justify-end">
+          <v-container v-if="this.token!==''" class="d-flex flew-row-reverse justify-end">
             <add-rud :id="blog.id"/>
             <upload-form :id="blog.id"/>
+            <delete-blog :id="blog.id"/>
           </v-container>
 
         </v-card>
@@ -40,16 +36,24 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import AddRud from '../components/AddRud.vue'
 import UploadImage from '../components/UploadImage.vue'
+import DeleteBlog from './DeleteBlog.vue'
 export default{
     data: () => ({
         apiDomain: 'https://demo-api-vue.sanbercloud.com',
     }),
     props: ['blog'] ,
     components : {
-      'add-rud' : AddRud,
+      'add-rud' : AddRud ,
+      'delete-blog' : DeleteBlog,
       'upload-form' : UploadImage,
-    }
+    },
+    computed: {
+        ...mapGetters({
+        token: 'auth/token'
+        })
+    },
 }
 </script>

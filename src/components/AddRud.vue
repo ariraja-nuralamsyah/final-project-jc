@@ -50,7 +50,7 @@
             text
             @click="submit"
           >
-            Submit
+            Update
           </v-btn>
         </v-card-actions>
        </v-form>
