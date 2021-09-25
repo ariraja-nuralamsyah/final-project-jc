@@ -109,12 +109,12 @@ export default {
           },
 
           submit(){
-           this.validationform()
-           let formData = new FormData()
-
+            this.validationform()
+            let formData = new FormData() 
+            
             if(this.errors.length === 0){
-            formData.append('title', this.title)
-            formData.append('description', this.description)
+              formData.append('title', this.title)
+              formData.append('description', this.description)
             }
 
             const config = {
