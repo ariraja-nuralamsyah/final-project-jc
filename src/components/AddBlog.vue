@@ -22,6 +22,7 @@
                 <v-text-field
                   v-model="title"
                   label="Judul*"
+                  :rules="titleRules"
                   required
                 ></v-text-field>
               </v-col>
@@ -29,6 +30,7 @@
                 <v-text-field
                   v-model="description"
                   label="Deskripsi*"
+                  :rules="descriptionRules"
                   required
                 ></v-text-field>
               </v-col>
@@ -39,14 +41,14 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="dialog=false"
+            @click="dialog=false, clearform()"
           >
             Cancel
           </v-btn>
           <v-btn
             color="blue darken-1"
             text
-            @click="submit"
+            @click="submit()"
           >
             Submit
           </v-btn>
@@ -71,7 +73,17 @@ export default {
     computed: {
         ...mapGetters({
         token: 'auth/token'
-        })
+        }),
+        titleRules(){
+          return [
+            v => !!v || 'Judul tidak boleh kosong!',
+          ]
+        },
+        descriptionRules (){
+          return [
+            v => !!v || 'Deskripsi tidak boleh kosong!'
+          ]
+        }
     },
     methods: {
         ...mapActions({
@@ -83,23 +95,24 @@ export default {
 
             if (this.title.length == 0){
                 this.errors.push ('Judul tidak boleh kosong')
-                this.$refs.title.focus()
+                //this.$refs.title.focus()
             }
             if (this.description.length ==0){
                 this.errors.push ('Deskripsi tidak boleh kosong')
-                this.$refs.description.focus()
+                //this.$refs.description.focus()
             }
           },
 
           clearform : function(){
-            this.title = ''
-            this.description = ''
+            this.title= '',
+            this.description= ''
           },
+
           submit(){
            this.validationform()
+           let formData = new FormData()
 
-            if(this.errors.length === 0)
-            let formData = new FormData() {
+            if(this.errors.length === 0){
             formData.append('title', this.title)
             formData.append('description', this.description)
             }
@@ -116,21 +129,23 @@ export default {
 
             this.axios(config)
                 .then(() => {
-                    this.clearform
+                    this.clearform()
+                    //this.dialog= 'false'
                     this.setAlert({
                         status: true,
                         color: 'success',
                         text: 'Berhasil',
                     })
+                    this.dialog= false
                 })
                 .catch(() => {
                     this.setAlert({
                         status: true,
                         color: 'error',
-                        text: 'Gagal',
+                        text: 'Gagal!',
                     })
                 })
-          }
+          },
     },
 };
 </script>
