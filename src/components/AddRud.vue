@@ -23,6 +23,7 @@
                   v-model="title"
                   label="Judul*"
                   required
+                  :rules="titleRules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12">
@@ -30,6 +31,7 @@
                   v-model="description"
                   label="Deskripsi*"
                   required
+                  :rules="descRules"
                 ></v-text-field>
               </v-col>
           <small>*Wajib diisi</small>
@@ -65,6 +67,12 @@ export default {
             description: '',
             errors: [],
             dialog: '',
+            titleRules: [
+              v => v != '' || 'Judul harus diisi'
+            ],
+            descRules: [
+              v => v != '' || 'Deskripsi harus diisi'
+            ],
         }
     },
     computed: {
@@ -97,36 +105,40 @@ export default {
           submit(){
            this.validationform()
             let formData = new FormData()
+
             if(this.errors.length === 0){
                 formData.append('title', this.title)
                 formData.append('description', this.description)
-            }
-            const config = {
-                method: "post",
-                url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}?_method=PUT`,
-                headers: {
-                    'Authorization': 'Bearer ' + this.token,
-                    'Content-Type': 'multipart/form-data'
-                },
-                data: this.formData
-            };
+                const config = {
+                    method: "post",
+                    url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}?_method=PUT`,
+                    headers: {
+                        'Authorization': 'Bearer ' + this.token,
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    data: formData
+                };
 
-            this.axios(config)
-                .then(() => {
-                    this.clearform
-                    this.setAlert({
-                        status: true,
-                        color: 'success',
-                        text: 'Berhasil',
+                console.log(this.token)
+                this.axios(config)
+                    .then(() => {
+                        this.clearform()
+                        this.dialog = false
+                        this.setAlert({
+                            status: true,
+                            color: 'success',
+                            text: 'Berhasil',
+                        })
                     })
-                })
-                .catch(() => {
-                    this.setAlert({
-                        status: true,
-                        color: 'error',
-                        text: 'Gagal',
+                    .catch(() => {
+                        this.setAlert({
+                            status: true,
+                            color: 'error',
+                            text: 'Gagal',
+                        })
                     })
-                })
+            }
+            
           }
     },
     props: ['id']

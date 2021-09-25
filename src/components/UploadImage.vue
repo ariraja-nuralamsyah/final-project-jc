@@ -22,14 +22,18 @@
         </v-card-text>
         <v-file-input
             label="Choose image"
+            v-model="fileInput"
             ref="myFile"
             show-size
-            accept=".jpg"
+            accept="image/jpeg"
             outlined
             dense
             prepend-icon="mdi-image"
             @change="onFileChange"
             style="padding: 0px 24px"
+            :error="errors.length > 0"
+            :error-message="errors[0]"
+            :rules="rules"
           ></v-file-input>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -59,8 +63,13 @@ export default {
     data() {
         return {
             file: '',
+            fileInput: undefined,
             errors: [],
             dialog: false,
+            invalid: false,
+            rules: [
+              v => (!!v && !this.invalid) || 'File is required'
+            ],
         }
     },
     computed: {
@@ -74,31 +83,16 @@ export default {
             setToken : 'auth/setToken'
         }),
           onFileChange : function(file){
-            this.errors = []
-
-            console.log(this.id)
             this.file = file
-
-            if (this.file == undefined || this.file == '') {
-              this.errors.push('File tidak ditemukan')
-              this.$refs.myFile.focus()
-            }
+            this.invalid = false
           },
           clearform : function(){
             this.file = ''
-          },
-          validationform() {
-            this.errors = []
-
-            if (this.file == undefined || this.file == '') {
-              this.errors.push('File tidak ditemukan')
-              this.$refs.myFile.focus()
-            }
+            this.fileInput = undefined
           },
           submit(){
-           this.validationform()
             let formData = new FormData()
-            if(this.errors.length === 0){
+            if(this.file != undefined && this.file != ''){
                 formData.append('photo', this.file)
 
                 const config = {
@@ -108,12 +102,12 @@ export default {
                         'Authorization': 'Bearer ' + this.token,
                         'Content-Type': 'multipart/form-data'
                     },
-                    data: this.formData
+                    data: formData
                 };
                 console.log(this.file)
                 this.axios(config)
                     .then(() => {
-                        this.clearform
+                        this.clearform()
                         this.dialog = false
                         this.setAlert({
                             status: true,
@@ -128,6 +122,15 @@ export default {
                             text: 'Gagal',
                         })
                     })
+            } else {
+              this.error = []
+              this.invalid = true
+              this.setAlert({
+                  status: true,
+                  color: 'error',
+                  text: 'File tidak boleh kosong',
+              })
+              this.error.push("File kosong")
             }
             
           }
