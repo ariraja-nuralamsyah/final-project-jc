@@ -103,7 +103,7 @@ export default {
             }
             const config = {
                 method: "post",
-                url: `http://demo-api-vue.sanbercloud.com/api/v2/blog`,
+                url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}?_method=PUT`,
                 headers: {
                     'Authorization': 'Bearer ' + this.token,
                     'Content-Type': 'multipart/form-data'
@@ -129,6 +129,6 @@ export default {
                 })
           }
     },
-    props: ['justify']
+    props: ['id']
 };
 </script>

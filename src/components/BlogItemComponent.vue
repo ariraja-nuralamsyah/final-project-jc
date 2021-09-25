@@ -30,10 +30,10 @@
           <p style="padding: 8px">{{ blog.title.substring(0,15) }}...</p>
 
           <v-container class="d-flex flew-row-reverse justify-end">
-            <add-rud/>
+            <add-rud :id="blog.id"/>
             <upload-form :id="blog.id"/>
           </v-container>
-          
+
         </v-card>
         
     </v-flex>
