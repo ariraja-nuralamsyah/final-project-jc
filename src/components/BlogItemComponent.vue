@@ -1,6 +1,7 @@
 <template>
-    <v-flex xs3>
-      <add-rud />
+    <v-flex xs6>
+        <add-rud v-if="this.token!==''"/>
+        <delete-blog v-if="this.token!==''" :id="blog.id"/>
         <v-card :to="`/blog/${blog.id}`">
           <v-img
             :src="blog.photo ? apiDomain + blog.photo : 'https://picsum.photos/200/300'"
@@ -28,14 +29,22 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import AddRud from '../components/AddRud.vue'
+import DeleteBlog from './DeleteBlog.vue'
 export default{
     data: () => ({
         apiDomain: 'https://demo-api-vue.sanbercloud.com',
     }),
     props: ['blog'] ,
     components : {
-      'add-rud' : AddRud
-    }
+      'add-rud' : AddRud ,
+      'delete-blog' : DeleteBlog
+    },
+    computed: {
+        ...mapGetters({
+        token: 'auth/token'
+        })
+    },
 }
 </script>

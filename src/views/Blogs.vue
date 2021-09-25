@@ -3,7 +3,7 @@
   <v-subheader>
     All Blogs
   </v-subheader>
-    <add-blog/>
+    <add-blog v-if="this.token!==''"/>
     <br>
     <v-layout wrap>
       <blog-item-component 
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import AddBlog from '../components/AddBlog.vue';
 import BlogItemComponent from '../components/BlogItemComponent.vue';
 export default {
@@ -35,6 +36,11 @@ export default {
     components: {
         'add-blog' : AddBlog ,
         'blog-item-component': BlogItemComponent
+    },
+    computed: {
+        ...mapGetters({
+        token: 'auth/token'
+        })
     },
     methods: {
         go(){
