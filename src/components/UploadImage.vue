@@ -7,35 +7,34 @@
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           small
-          color="warning"
+          color="blue"
           dark
           v-bind="attrs"
           v-on="on"
         >
-          Edit
+          Upload
         </v-btn>
       </template>
       <v-card>
        <v-form>
         <v-card-text>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="title"
-                  label="Judul*"
-                  required
-                  :rules="titleRules"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="description"
-                  label="Deskripsi*"
-                  required
-                  :rules="descRules"
-                ></v-text-field>
-              </v-col>
-          <small>*Wajib diisi</small>
+          <v-card-title class="headline">Upload Image</v-card-title>
         </v-card-text>
+        <v-file-input
+            label="Choose image"
+            v-model="fileInput"
+            ref="myFile"
+            show-size
+            accept="image/jpeg"
+            outlined
+            dense
+            prepend-icon="mdi-image"
+            @change="onFileChange"
+            style="padding: 0px 24px"
+            :error="errors.length > 0"
+            :error-message="errors[0]"
+            :rules="rules"
+          ></v-file-input>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -50,7 +49,7 @@
             text
             @click="submit"
           >
-            Update
+            Upload
           </v-btn>
         </v-card-actions>
        </v-form>
@@ -63,15 +62,13 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     data() {
         return {
-            title: '',
-            description: '',
+            file: '',
+            fileInput: undefined,
             errors: [],
-            dialog: '',
-            titleRules: [
-              v => v != '' || 'Judul harus diisi'
-            ],
-            descRules: [
-              v => v != '' || 'Deskripsi harus diisi'
+            dialog: false,
+            invalid: false,
+            rules: [
+              v => (!!v && !this.invalid) || 'File is required'
             ],
         }
     },
@@ -85,41 +82,29 @@ export default {
             setAlert : 'alert/set',
             setToken : 'auth/setToken'
         }),
-          validationform : function(){
-            this.errors = []
-
-            if (this.title.length == 0){
-                this.errors.push ('Judul tidak boleh kosong')
-                this.$refs.title.focus()
-            }
-            if (this.description.length ==0){
-                this.errors.push ('Deskripsi tidak boleh kosong')
-                this.$refs.description.focus()
-            }
+          onFileChange : function(file){
+            this.file = file
+            this.invalid = false
           },
-
           clearform : function(){
-            this.title = ''
-            this.description = ''
+            this.file = ''
+            this.fileInput = undefined
           },
           submit(){
-           this.validationform()
             let formData = new FormData()
+            if(this.file != undefined && this.file != ''){
+                formData.append('photo', this.file)
 
-            if(this.errors.length === 0){
-                formData.append('title', this.title)
-                formData.append('description', this.description)
                 const config = {
                     method: "post",
-                    url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}?_method=PUT`,
+                    url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}/upload-photo`,
                     headers: {
                         'Authorization': 'Bearer ' + this.token,
                         'Content-Type': 'multipart/form-data'
                     },
                     data: formData
                 };
-
-                console.log(this.token)
+                console.log(this.file)
                 this.axios(config)
                     .then(() => {
                         this.clearform()
@@ -137,6 +122,15 @@ export default {
                             text: 'Gagal',
                         })
                     })
+            } else {
+              this.error = []
+              this.invalid = true
+              this.setAlert({
+                  status: true,
+                  color: 'error',
+                  text: 'File tidak boleh kosong',
+              })
+              this.error.push("File kosong")
             }
             
           }

@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on, attrs }">
         <v-btn
           small
-          color="warning"
+          color="red"
           dark
           v-bind="attrs"
           v-on="on"

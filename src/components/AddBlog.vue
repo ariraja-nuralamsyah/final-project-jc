@@ -104,7 +104,7 @@ export default {
           },
 
           clearform : function(){
-            this.title= '',
+            this.title= ''
             this.description= ''
           },
 

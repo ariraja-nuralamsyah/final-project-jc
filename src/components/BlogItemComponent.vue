@@ -1,19 +1,24 @@
 <template>
     <v-flex xs6>
-        <add-rud v-if="this.token!==''"/>
-        <delete-blog v-if="this.token!==''" :id="blog.id"/>
-        <v-card :to="`/blog/${blog.id}`">
-          <v-img
-            :src="blog.photo ? apiDomain + blog.photo : 'https://picsum.photos/200/300'"
-            class="white--text"
-            height="200px"
+        
+        <v-card>
+          <router-link
+            :to="`/blog/${blog.id}`"
+            style="text-decoration: none; color: inherit;"
           >
-            <v-card-title
-              class="fill-height align-end"
-              v-text="blog.title"
-            ></v-card-title>
-          </v-img>
-
+            <v-img
+              :src="blog.photo ? apiDomain + blog.photo : 'https://picsum.photos/200/300'"
+              class="white--text"
+              height="200px"
+            >
+              <v-card-title
+                class="fill-height align-end"
+                v-text="blog.title"
+              >
+              </v-card-title>
+            </v-img>
+          </router-link>
+          
           <v-card-actions>
             <v-progress-linear
               color="blue-grey"
@@ -21,16 +26,24 @@
             ></v-progress-linear>
           </v-card-actions>
 
-          <v-card-actions>
-            <span>{{ blog.title.substring(0,15) }}...</span>
-          </v-card-actions>
+
+          <p style="padding: 8px">{{ blog.title.substring(0,15) }}...</p>
+
+          <v-container v-if="this.token!==''" class="d-flex flew-row-reverse justify-end">
+            <add-rud :id="blog.id"/>
+            <upload-form :id="blog.id"/>
+            <delete-blog :id="blog.id"/>
+          </v-container>
+
         </v-card>
+        
     </v-flex>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import AddRud from '../components/AddRud.vue'
+import UploadImage from '../components/UploadImage.vue'
 import DeleteBlog from './DeleteBlog.vue'
 export default{
     data: () => ({
@@ -39,7 +52,8 @@ export default{
     props: ['blog'] ,
     components : {
       'add-rud' : AddRud ,
-      'delete-blog' : DeleteBlog
+      'delete-blog' : DeleteBlog,
+      'upload-form' : UploadImage,
     },
     computed: {
         ...mapGetters({
