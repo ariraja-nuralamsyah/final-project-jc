@@ -1,6 +1,5 @@
 <template>
     <v-flex xs6>
-        
         <v-card>
           <router-link
             :to="`/blog/${blog.id}`"
@@ -29,7 +28,7 @@
 
           <p style="padding: 8px">{{ blog.description.substring(0,15) }}...</p>
 
-          <v-container v-if="this.token!==''" class="d-flex flew-row-reverse justify-end">
+          <v-container v-if="this.token!=='' && this.$route.name == 'Blogs'" class="d-flex flew-row-reverse justify-end">
             <add-rud :blog="blog" :refreshData="refreshData"/>
             <upload-form :id="blog.id" :refreshData="refreshData"/>
             <delete-blog :id="blog.id" :refreshData="refreshData"/>
@@ -59,6 +58,6 @@ export default{
         ...mapGetters({
           token: 'auth/token'
         })
-    },
+    }
 }
 </script>
