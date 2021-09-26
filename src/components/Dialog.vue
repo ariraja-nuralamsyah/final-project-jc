@@ -1,6 +1,6 @@
 <template>
     <keep-alive>
-        <v-dialog v-model="dialog" fullscreen hide-overlay persistent transition="dialog-bottom-transition">
+        <v-dialog v-model="dialog" persistent transition="dialog-bottom-transition" max-width="600px">
             <component :is="currentComponent" @closed="setDialogStatus"></component>
         </v-dialog>
     </keep-alive>

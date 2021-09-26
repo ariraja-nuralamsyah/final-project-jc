@@ -19,7 +19,7 @@
         v-model="page"
         @input="go"
         :length="lengthPage"
-        :total-visible="perPage"
+        :total-visible="6"
     ></v-pagination>
   </v-container>
 </template>

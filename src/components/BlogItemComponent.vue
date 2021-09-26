@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs6>
+    <v-flex xs3>
         <v-card>
           <router-link
             :to="`/blog/${blog.id}`"
@@ -7,21 +7,26 @@
           >
             <v-img
               :src="blog.photo ? apiDomain + blog.photo : 'https://picsum.photos/200/300'"
-              class="white--text"
               height="200px"
             >
-              <v-card-title
-                class="fill-height align-end"
-                v-text="blog.title"
+              <v-card
+                class="d-flex fill-height align-end"
+                style="background: rgba(0, 0, 0, 0);"
               >
-              </v-card-title>
+                <v-card-title
+                  style="background: rgba(126, 140, 130, 0.7); width:100%;"
+                  class="white--text"
+                  v-text="blog.title"
+                >
+                </v-card-title>
+              </v-card>
             </v-img>
           </router-link>
           
           <v-card-actions>
             <v-progress-linear
-              color="blue-grey"
-              height="7"
+              color="black"
+              height="2"
             ></v-progress-linear>
           </v-card-actions>
 
@@ -29,8 +34,8 @@
           <p style="padding: 8px">{{ blog.description.substring(0,15) }}...</p>
 
           <v-container v-if="this.token!=='' && this.$route.name == 'Blogs'" class="d-flex flew-row-reverse justify-end">
-            <add-rud :blog="blog" :refreshData="refreshData"/>
-            <upload-form :id="blog.id" :refreshData="refreshData"/>
+            <add-rud :blog="blog" :refreshData="refreshData"/> &nbsp;
+            <upload-form :id="blog.id" :refreshData="refreshData"/> &nbsp;
             <delete-blog :id="blog.id" :refreshData="refreshData"/>
           </v-container>
 

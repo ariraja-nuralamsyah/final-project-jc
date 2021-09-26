@@ -8,7 +8,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          Hapus
+          <v-icon dark>mdi-delete</v-icon>
         </v-btn>
     </template>
     <v-card>

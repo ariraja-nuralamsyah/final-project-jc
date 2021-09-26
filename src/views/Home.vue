@@ -29,7 +29,7 @@ export default {
     go(){
       const config = {
         method: 'get',
-        url: `${this.apiDomain}/api/v2/blog/random/4`
+        url: `${this.apiDomain}/api/v2/blog/random/8`
       }
 
       this.axios(config)

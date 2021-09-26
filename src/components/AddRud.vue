@@ -12,7 +12,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          Edit
+          <v-icon dark>mdi-pencil</v-icon>
         </v-btn>
       </template>
       <v-card>
