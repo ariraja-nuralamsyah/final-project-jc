@@ -1,17 +1,18 @@
 <template>
    <v-dialog
       v-model="dialog"
-      persistent
+      
       max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
-          color="success"
+          color="secondary"
           dark
           v-bind="attrs"
           v-on="on"
         >
-          Tambah Blog
+        <v-icon dark>mdi-plus-thick</v-icon>
+        &nbsp; Buat baru
         </v-btn>
       </template>
       <v-card>

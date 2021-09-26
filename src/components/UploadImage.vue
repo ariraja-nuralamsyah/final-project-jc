@@ -12,7 +12,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          Upload
+          <v-icon dark>mdi-tray-arrow-up</v-icon>
         </v-btn>
       </template>
       <v-card>
