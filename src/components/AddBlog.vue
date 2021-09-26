@@ -1,6 +1,5 @@
 <template>
-  <v-row justify="center">
-    <v-dialog
+   <v-dialog
       v-model="dialog"
       persistent
       max-width="600px"
@@ -56,7 +55,6 @@
        </v-form>
       </v-card>
     </v-dialog>
-  </v-row>
 </template>
 
 <script>
@@ -66,13 +64,13 @@ export default {
         return {
             title: '',
             description: '',
-            errors: [],
             dialog: '',
         }
     },
+    props: ['refreshData'],
     computed: {
         ...mapGetters({
-        token: 'auth/token'
+          token: 'auth/token'
         }),
         titleRules(){
           return [
@@ -88,64 +86,46 @@ export default {
     methods: {
         ...mapActions({
             setAlert : 'alert/set',
-            setToken : 'auth/setToken'
         }),
-          validationform : function(){
-            this.errors = []
+        clearform : function(){
+          this.title= ''
+          this.description= ''
+        },
+        submit(){
+          let formData = new FormData() 
+    
+          formData.append('title', this.title)
+          formData.append('description', this.description)
+          
+          const config = {
+              method: "post",
+              url: `http://demo-api-vue.sanbercloud.com/api/v2/blog`,
+              headers: {
+                  'Authorization': 'Bearer ' + this.token,
+                  'Accept': 'application/json',
+              },
+              data: formData
+          };
 
-            if (this.title.length == 0){
-                this.errors.push ('Judul tidak boleh kosong')
-                //this.$refs.title.focus()
-            }
-            if (this.description.length ==0){
-                this.errors.push ('Deskripsi tidak boleh kosong')
-                //this.$refs.description.focus()
-            }
-          },
-
-          clearform : function(){
-            this.title= ''
-            this.description= ''
-          },
-
-          submit(){
-            this.validationform()
-            let formData = new FormData() 
-            
-            if(this.errors.length === 0){
-              formData.append('title', this.title)
-              formData.append('description', this.description)
-            }
-
-            const config = {
-                method: "post",
-                url: `http://demo-api-vue.sanbercloud.com/api/v2/blog`,
-                headers: {
-                    'Authorization': 'Bearer ' + this.token,
-                    'Accept': 'application/json',
-                },
-                data: formData
-            };
-
-            this.axios(config)
-                .then(() => {
-                    this.clearform()
-                    //this.dialog= 'false'
-                    this.setAlert({
-                        status: true,
-                        color: 'success',
-                        text: 'Berhasil',
-                    })
-                    this.dialog= false
-                })
-                .catch(() => {
-                    this.setAlert({
-                        status: true,
-                        color: 'error',
-                        text: 'Gagal!',
-                    })
-                })
-          },
-    },
+          this.axios(config)
+              .then(() => {
+                  this.clearform()
+                  this.setAlert({
+                      status: true,
+                      color: 'success',
+                      text: 'Berhasil',
+                  })
+                  this.refreshData()
+                  this.dialog= false
+              })
+              .catch(() => {
+                  this.setAlert({
+                      status: true,
+                      color: 'error',
+                      text: 'Gagal!',
+                  })
+              })
+        },
+    }
 };
 </script>

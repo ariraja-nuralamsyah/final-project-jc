@@ -27,12 +27,12 @@
           </v-card-actions>
 
 
-          <p style="padding: 8px">{{ blog.title.substring(0,15) }}...</p>
+          <p style="padding: 8px">{{ blog.description.substring(0,15) }}...</p>
 
           <v-container v-if="this.token!==''" class="d-flex flew-row-reverse justify-end">
-            <add-rud :id="blog.id"/>
-            <upload-form :id="blog.id"/>
-            <delete-blog :id="blog.id"/>
+            <add-rud :blog="blog" :refreshData="refreshData"/>
+            <upload-form :id="blog.id" :refreshData="refreshData"/>
+            <delete-blog :id="blog.id" :refreshData="refreshData"/>
           </v-container>
 
         </v-card>
@@ -49,7 +49,7 @@ export default{
     data: () => ({
         apiDomain: 'https://demo-api-vue.sanbercloud.com',
     }),
-    props: ['blog'] ,
+    props: ['blog', 'refreshData'] ,
     components : {
       'add-rud' : AddRud ,
       'delete-blog' : DeleteBlog,
@@ -57,7 +57,7 @@ export default{
     },
     computed: {
         ...mapGetters({
-        token: 'auth/token'
+          token: 'auth/token'
         })
     },
 }
