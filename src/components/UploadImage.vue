@@ -96,7 +96,7 @@ export default {
 
                 const config = {
                     method: "post",
-                    url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}/upload-photo`,
+                    url: `https://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}/upload-photo`,
                     headers: {
                         'Authorization': 'Bearer ' + this.token,
                         'Content-Type': 'multipart/form-data'

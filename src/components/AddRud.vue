@@ -93,7 +93,7 @@ export default {
           formData.append('description', this.description)
           const config = {
               method: "post",
-              url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${id}?_method=PUT`,
+              url: `https://demo-api-vue.sanbercloud.com/api/v2/blog/${id}?_method=PUT`,
               headers: {
                   'Authorization': 'Bearer ' + this.token,
                   'Content-Type': 'multipart/form-data'

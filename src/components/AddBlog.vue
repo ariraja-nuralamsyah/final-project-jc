@@ -100,7 +100,7 @@ export default {
           
           const config = {
               method: "post",
-              url: `http://demo-api-vue.sanbercloud.com/api/v2/blog`,
+              url: `https://demo-api-vue.sanbercloud.com/api/v2/blog`,
               headers: {
                   'Authorization': 'Bearer ' + this.token,
                   'Accept': 'application/json',

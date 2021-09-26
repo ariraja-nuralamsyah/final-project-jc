@@ -46,7 +46,7 @@ export default {
         //let { id } = this.$route.params
         const config = {
             method: "post",
-            url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}`,
+            url: `https://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}`,
             params : { _method : "DELETE"},
              headers: {
                     'Authorization': 'Bearer ' + this.token,
