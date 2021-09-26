@@ -3,13 +3,16 @@
   <v-subheader>
     All Blogs
   </v-subheader>
-    <add-blog v-if="this.token!==''"/>
+    <v-row justify="center">
+        <add-blog v-if="this.token!==''" :refreshData="go"/>
+    </v-row>
     <br>
     <v-layout wrap>
       <blog-item-component 
         v-for="blog in blogs"  
         :key="`blog-${blog.id}`"
         :blog="blog"
+        :refreshData="go"
       ></blog-item-component>
     </v-layout>
     <v-pagination

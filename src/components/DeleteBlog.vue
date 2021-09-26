@@ -59,6 +59,7 @@ export default {
                         color: 'success',
                         text: 'Berhasil',
                     })
+                    this.refreshData()
                 })
                 .catch(() => {
                     this.setAlert({
@@ -70,6 +71,6 @@ export default {
             console.log(id)
       },
     },
-    props: ['id']
+    props: ['id', 'refreshData']
 };
 </script>

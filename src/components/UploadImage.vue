@@ -79,8 +79,7 @@ export default {
     },
     methods: {
         ...mapActions({
-            setAlert : 'alert/set',
-            setToken : 'auth/setToken'
+            setAlert : 'alert/set'
         }),
           onFileChange : function(file){
             this.file = file
@@ -114,6 +113,7 @@ export default {
                             color: 'success',
                             text: 'Berhasil',
                         })
+                        this.refreshData()
                     })
                     .catch(() => {
                         this.setAlert({
@@ -135,6 +135,6 @@ export default {
             
           }
     },
-    props: ['id']
+    props: ['id', 'refreshData']
 };
 </script>

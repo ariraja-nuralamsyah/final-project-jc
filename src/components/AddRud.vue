@@ -48,7 +48,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="submit"
+            @click="update(blog.id)"
           >
             Update
           </v-btn>
@@ -63,9 +63,8 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
     data() {
         return {
-            title: '',
-            description: '',
-            errors: [],
+            title: this.blog.title,
+            description: this.blog.description,
             dialog: '',
             titleRules: [
               v => v != '' || 'Judul harus diisi'
@@ -77,70 +76,51 @@ export default {
     },
     computed: {
         ...mapGetters({
-        token: 'auth/token'
+          token: 'auth/token'
         })
     },
     methods: {
         ...mapActions({
-            setAlert : 'alert/set',
-            setToken : 'auth/setToken'
+          setAlert : 'alert/set'
         }),
-          validationform : function(){
-            this.errors = []
+        clearform : function(){
+          this.title = ''
+          this.description = ''
+        },
+        update(id){
+          let formData = new FormData()
+          formData.append('title', this.title)
+          formData.append('description', this.description)
+          const config = {
+              method: "post",
+              url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${id}?_method=PUT`,
+              headers: {
+                  'Authorization': 'Bearer ' + this.token,
+                  'Content-Type': 'multipart/form-data'
+              },
+              data: formData
+          };
 
-            if (this.title.length == 0){
-                this.errors.push ('Judul tidak boleh kosong')
-                this.$refs.title.focus()
-            }
-            if (this.description.length ==0){
-                this.errors.push ('Deskripsi tidak boleh kosong')
-                this.$refs.description.focus()
-            }
-          },
-
-          clearform : function(){
-            this.title = ''
-            this.description = ''
-          },
-          submit(){
-           this.validationform()
-            let formData = new FormData()
-
-            if(this.errors.length === 0){
-                formData.append('title', this.title)
-                formData.append('description', this.description)
-                const config = {
-                    method: "post",
-                    url: `http://demo-api-vue.sanbercloud.com/api/v2/blog/${this.id}?_method=PUT`,
-                    headers: {
-                        'Authorization': 'Bearer ' + this.token,
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    data: formData
-                };
-
-                console.log(this.token)
-                this.axios(config)
-                    .then(() => {
-                        this.clearform()
-                        this.dialog = false
-                        this.setAlert({
-                            status: true,
-                            color: 'success',
-                            text: 'Berhasil',
-                        })
-                    })
-                    .catch(() => {
-                        this.setAlert({
-                            status: true,
-                            color: 'error',
-                            text: 'Gagal',
-                        })
-                    })
-            }
-            
-          }
+          this.axios(config)
+              .then(() => {
+                  this.clearform()
+                  this.dialog = false
+                  this.setAlert({
+                      status: true,
+                      color: 'success',
+                      text: 'Berhasil',
+                  })
+                  this.refreshData()
+              })
+              .catch(() => {
+                  this.setAlert({
+                      status: true,
+                      color: 'error',
+                      text: 'Gagal',
+                  })
+              })
+        }
     },
-    props: ['id']
+    props: ['blog', 'refreshData']
 };
 </script>

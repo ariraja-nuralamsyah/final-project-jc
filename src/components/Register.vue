@@ -39,6 +39,7 @@
                     prepend-icon="mdi-camera"
                     label="Photo Profile"
                     ref="photo"
+                    :rules="photoRules"
                     @change="Preview_image"
                     v-model="image"
                 >
@@ -102,12 +103,17 @@ export default {
                 v => !!v || 'Password is required',
                 v => (v && v.length >= 5) || 'Password must have 5+ characters' 
             ]
+        }, 
+        photoRules(){
+            return [
+                v => (v != null && v.length != 0)  || 'Photo is required',
+            ]
         }
     },
     methods: {
         ...mapActions({
             setAlert : 'alert/set',
-            setToken : 'auth/setToken'
+            // setToken : 'auth/setToken'
         }),
         close() {
             this.$emit('closed', false)
