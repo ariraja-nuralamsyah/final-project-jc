@@ -103,6 +103,8 @@ export default {
                         text: 'Login Berhasil',
                     })
                     this.onLoad = false
+                    this.email = ''
+                    this.password = ''
                     this.close()
                 })
                 .catch(() => {
