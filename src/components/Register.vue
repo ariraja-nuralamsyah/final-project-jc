@@ -142,17 +142,6 @@ export default {
             };
             this.axios(config)
                 .then(() => {
-                    // const config = {
-                    //     method: "post",
-                    //     url: `${this.apiDomain}/api/v2/auth/login`,
-                    //     data: {
-                    //         'email': response.data.user.email,
-                    //         'password': this.password
-                    //     }
-                    // };
-                    // this.axios(config)
-                        // .then((response) => {
-                            // this.setToken(response.data.access_token)
                             this.setAlert({
                                 status: true,
                                 color: 'success',
@@ -165,15 +154,6 @@ export default {
                             this.name = ''
                             this.close()
                         })
-                        // .catch((error) => {
-                        //     console.log(error)
-                        //     this.setAlert({
-                        //         status: true,
-                        //         color: 'error',
-                        //         text: 'Login Gagal',
-                        //     })
-                        // })
-                // })
                 .catch((error) => {
                     console.log(error)
                     this.setAlert({
